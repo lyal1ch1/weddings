@@ -59,7 +59,7 @@ export default function Plan() {
             className={`plan-element ${isLeft ? "left" : "right"}`}
             key={index}
           >
-            <img src={item.photo} alt="photo" className="photo-el" />
+            <img src={item.photo} alt="photo" className={`photo-el photo-el-${index}`} />
 
             <h2 className="time-element">
               {item.time} {item.title}

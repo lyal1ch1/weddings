@@ -6,6 +6,7 @@ import Gaudi from "./Gaudi";
 import Plan from "./Plan";
 import Details from "./Details";
 import Forms from "./Forms";
+import Timer from "./Timer";
 
 export default function WeddingInvite() {
 
@@ -50,6 +51,7 @@ export default function WeddingInvite() {
       <Gaudi />
       <Plan />
       <Details />
+      <Timer />
       <Forms />
     </div>
   );

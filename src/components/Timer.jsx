@@ -1,0 +1,58 @@
+import { useEffect, useState } from "react";
+export default function Timer() {
+  const targetDate = new Date("2026-07-25T15:00:00");
+
+  const getTimeLeft = () => {
+    const now = new Date();
+    const diff = targetDate - now;
+
+    if (diff <= 0) {
+      return { d: "00", h: "00", m: "00", s: "00" };
+    }
+
+    return {
+      d: String(Math.floor(diff / (1000 * 60 * 60 * 24))).padStart(2, "0"),
+      h: String(Math.floor((diff / (1000 * 60 * 60)) % 24)).padStart(2, "0"),
+      m: String(Math.floor((diff / (1000 * 60)) % 60)).padStart(2, "0"),
+      s: String(Math.floor((diff / 1000) % 60)).padStart(2, "0"),
+    };
+  };
+
+  const [time, setTime] = useState(getTimeLeft());
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTime(getTimeLeft());
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+  return (<>
+    {/* <div className="hero">
+      <div className="hero-overlay-1"> */}
+    <div className="timer">
+      <div className="overlay"></div>
+      <h2 className="timer-title-heading">До свадьбы</h2>
+      <h2 className="timer-title">ОСТАЛОСЬ</h2>
+
+      <div className="timer-numbers">
+        <span>{time.d}</span>
+        <span className="sep">|</span>
+        <span>{time.h}</span>
+        <span className="sep">|</span>
+        <span>{time.m}</span>
+        <span className="sep">|</span>
+        <span>{time.s}</span>
+      </div>
+
+      <div className="timer-labels">
+        <span>дни</span>
+        <span>часы</span>
+        <span>мин</span>
+        <span>сек</span>
+        {/* </div>
+        </div> */}
+      </div>
+    </div >
+  </>)
+}

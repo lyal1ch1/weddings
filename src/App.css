@@ -247,6 +247,15 @@ body {
   border-radius: 10px;
 }
 
+.photo-el-1 {
+  object-position: center 70%;
+}
+
+.photo-el-3 {
+  object-position: center 60%;
+  /* transform: scale(0.9); */
+}
+
 .time-element {
   margin-top: 10px;
   font-family: "EB Garamond", serif;
@@ -441,6 +450,93 @@ button:hover {
 button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+
+/* .timer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100dvh;
+  background: url("./assets/Back.jpg") center / cover no-repeat;
+  color: white;
+} */
+
+.timer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100dvh;
+  background: url("./assets/Back.jpg") center / cover no-repeat;
+  color: white;
+  overflow: hidden;
+  /* чтобы слой не вылезал */
+}
+
+.timer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.25);
+  /* 👈 регулируй затемнение */
+  z-index: 1;
+}
+
+/* чтобы текст был поверх затемнения */
+.timer>* {
+  position: relative;
+  z-index: 2;
+}
+
+.timer-title-heading {
+  font-family: "Great Vibes", cursive;
+  font-weight: 100;
+  font-size: 70px;
+}
+
+/* текст */
+.timer-title {
+  position: relative;
+  font-family: "EB Garamond", serif;
+  font-size: 32px;
+  letter-spacing: 6px;
+  margin-bottom: 30px;
+  z-index: 2;
+}
+
+/* цифры */
+.timer-numbers {
+  position: relative;
+  display: flex;
+  align-items: center;
+  font-size: 34px;
+  font-family: "EB Garamond", serif;
+  font-weight: 300;
+  z-index: 2;
+}
+
+.timer-numbers span {
+  margin: 0 8px;
+}
+
+.sep {
+  opacity: 0.7;
+}
+
+/* подписи */
+.timer-labels {
+  position: relative;
+  display: flex;
+  gap: 20px;
+  margin-top: 10px;
+  font-size: 18px;
+  font-family: "EB Garamond", serif;
+  text-transform: lowercase;
+  z-index: 2;
 }
 
 * {
