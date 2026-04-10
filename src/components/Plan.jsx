@@ -1,3 +1,5 @@
+
+import { useRef, useEffect, useState } from "react";
 import Photo1 from "../assets/Photo1.jpg";
 import Photo2 from "../assets/rings.jpg";
 import Photo3 from "../assets/Photo2.jpg";
@@ -8,6 +10,8 @@ import StrLeft from "../assets/left-um.svg";
 import StrRight from "../assets/right-um.svg";
 
 export default function Plan() {
+  const [visibleItems, setVisibleItems] = useState([]);
+  const itemRefs = useRef([]);
 
   const planData = [
     {
@@ -42,6 +46,39 @@ export default function Plan() {
     }
   ];
 
+  useEffect(() => {
+    const observers = itemRefs.current.map((ref, index) => {
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setTimeout(() => {
+              setVisibleItems(prev => {
+                if (!prev.includes(index)) {
+                  return [...prev, index];
+                }
+                return prev;
+              });
+            }, 100);
+          }
+        },
+        {
+          threshold: 0.2,
+          rootMargin: '0px 0px -100px 0px'
+        }
+      );
+
+      if (ref) {
+        observer.observe(ref);
+      }
+
+      return observer;
+    });
+
+    return () => {
+      observers.forEach(observer => observer.disconnect());
+    };
+  }, []);
+
   return (
     <div className="plan">
       <div className="line"></div>
@@ -52,14 +89,21 @@ export default function Plan() {
 
       {planData.map((item, index) => {
         const isLeft = index % 2 === 0;
-        const isLast = index === planData.length - 1; // проверяем, последний ли элемент
+        const isLast = index === planData.length - 1;
+        const isVisible = visibleItems.includes(index);
 
         return (
           <div
-            className={`plan-element ${isLeft ? "left" : "right"}`}
+            ref={el => itemRefs.current[index] = el}
+            className={`plan-element ${isLeft ? "left" : "right"} ${isVisible ? 'plan-visible' : ''}`}
             key={index}
+            style={{
+              animationDelay: '0s'
+            }}
           >
-            <img src={item.photo} alt="photo" className={`photo-el photo-el-${index}`} />
+            <div className="plan-photo-wrapper">
+              <img src={item.photo} alt="photo" className={`photo-el photo-el-${index}`} />
+            </div>
 
             <h2 className="time-element">
               {item.time} {item.title}
@@ -69,7 +113,6 @@ export default function Plan() {
               {item.descr}
             </h3>
 
-            {/* Стрелку рендерим только если элемент не последний */}
             {!isLast && (
               <img
                 src={isLeft ? StrRight : StrLeft}
@@ -79,10 +122,9 @@ export default function Plan() {
             )}
           </div>
         );
-
       })}
-      <div className="line"></div>
 
+      <div className="line"></div>
     </div>
   );
 }

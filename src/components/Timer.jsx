@@ -1,6 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+
 export default function Timer() {
   const targetDate = new Date("2026-07-25T15:00:00");
+  const [isVisible, setIsVisible] = useState(false);
+  const timerRef = useRef(null);
 
   const getTimeLeft = () => {
     const now = new Date();
@@ -27,10 +30,33 @@ export default function Timer() {
 
     return () => clearInterval(interval);
   }, []);
-  return (<>
-    {/* <div className="hero">
-      <div className="hero-overlay-1"> */}
-    <div className="timer">
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      {
+        threshold: 0.3,
+        rootMargin: '0px'
+      }
+    );
+
+    if (timerRef.current) {
+      observer.observe(timerRef.current);
+    }
+
+    return () => {
+      if (timerRef.current) {
+        observer.unobserve(timerRef.current);
+      }
+    };
+  }, []);
+
+  return (
+    <div ref={timerRef} className={`timer ${isVisible ? 'timer-visible' : ''}`}>
       <div className="overlay"></div>
       <h2 className="timer-title-heading">До свадьбы</h2>
       <h2 className="timer-title">ОСТАЛОСЬ</h2>
@@ -50,9 +76,7 @@ export default function Timer() {
         <span>часы</span>
         <span>мин</span>
         <span>сек</span>
-        {/* </div>
-        </div> */}
       </div>
-    </div >
-  </>)
+    </div>
+  );
 }

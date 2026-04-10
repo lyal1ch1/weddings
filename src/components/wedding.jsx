@@ -32,7 +32,7 @@ export default function WeddingInvite() {
           <p>Данная страница открывается только на мобильных устройствах</p>
 
           <img
-            src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://your-link-here.com"
+            src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=http://87.242.118.7"
             alt="QR Code"
           />
 

@@ -1,5 +1,4 @@
-// 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 export default function Forms() {
     const [form, setForm] = useState({
@@ -16,6 +15,8 @@ export default function Forms() {
         visible: false,
     });
     const [errors, setErrors] = useState({});
+    const [isVisible, setIsVisible] = useState(false);
+    const formRef = useRef(null);
 
     const drinkOptions = [
         'Белое вино',
@@ -24,6 +25,30 @@ export default function Forms() {
         'Шампанское',
         'Безалкогольный напиток',
     ];
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setIsVisible(true);
+                }
+            },
+            {
+                threshold: 0.1,
+                rootMargin: '0px'
+            }
+        );
+
+        if (formRef.current) {
+            observer.observe(formRef.current);
+        }
+
+        return () => {
+            if (formRef.current) {
+                observer.unobserve(formRef.current);
+            }
+        };
+    }, []);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -68,7 +93,6 @@ export default function Forms() {
             newErrors.attendance = 'Выберите вариант присутствия';
         }
 
-        // Проверяем напитки только если идет
         if (form.attendance === 'yes' && form.drinks.length === 0) {
             newErrors.drinks = 'Выберите хотя бы один напиток';
         }
@@ -76,6 +100,7 @@ export default function Forms() {
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
+
     const showToast = (message, type = 'success') => {
         setToast({
             message,
@@ -128,7 +153,7 @@ export default function Forms() {
     };
 
     return (
-        <div className="forms-container">
+        <div ref={formRef} className={`forms-container ${isVisible ? 'forms-visible' : ''}`}>
             <div className="line"></div>
             <h1 className="heading-forms">Анкета Гостя</h1>
             <h2 className="head-forms">
@@ -137,8 +162,6 @@ export default function Forms() {
 
             <p className="descr-forms">
                 Анкету необходимо заполнять индивидуально на каждого гостя.
-                {/* <br />
-                Для заполнения следующей анкеты гостя отправьте текущую */}
             </p>
 
             <div className="invite-wrapper">
@@ -207,16 +230,14 @@ export default function Forms() {
                     <button type="submit" disabled={loading}>
                         {loading ? 'ОТПРАВКА...' : 'Подтвердить'}
                     </button>
-
-
                 </form>
             </div>
+
             <div
                 className={`toast ${toast.visible ? 'show' : ''} ${toast.type}`}
             >
                 {toast.message}
             </div>
         </div>
-
     );
 }
