@@ -3,6 +3,7 @@
 *::before,
 *::after {
   box-sizing: border-box;
+  /* border: 1px solid red; */
 }
 
 body {
@@ -30,11 +31,11 @@ html {
   text-align: center;
 
   background: url("./assets/header-photo2.jpg") center / cover no-repeat;
-  animation: subtleZoom 20s ease-in-out infinite alternate;
+  /* animation: subtleZoom 20s ease-in-out infinite alternate; */
 }
 
 /* Мягкий параллакс-зум фона */
-@keyframes subtleZoom {
+/* @keyframes subtleZoom {
   0% {
     background-size: 100%;
   }
@@ -42,7 +43,7 @@ html {
   100% {
     background-size: 105%;
   }
-}
+} */
 
 /* контейнер для позиционирования */
 .hero-overlay {
@@ -315,15 +316,15 @@ html {
 .gaudi-container {
   position: relative;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
+  /* justify-content: space-evenly; */
   flex-direction: column;
   min-height: 100vh;
   text-align: center;
   color: white;
   background-image:
     linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-    url('./assets/gaudi.jpg');
-  background-attachment: fixed;
+    url('./assets/gaudi2.jpg');
   background-size: cover;
   background-position: center;
 }
@@ -407,22 +408,22 @@ html {
 
 .plan-visible .photo-el {
   animation: scaleIn 0.6s ease-out forwards;
-  animation-delay: 0.2s;
+  /* animation-delay: 0.2s; */
 }
 
 .plan-visible .time-element {
   animation: fadeInUp 0.6s ease-out forwards;
-  animation-delay: 0.4s;
+  /* animation-delay: 0.4s; */
 }
 
 .plan-visible .descr-element {
   animation: fadeInUp 0.6s ease-out forwards;
-  animation-delay: 0.5s;
+  /* animation-delay: 0.5s; */
 }
 
 .plan-visible .arrow {
   animation: fadeIn 0.6s ease-out forwards;
-  animation-delay: 0.6s;
+  animation-delay: 0.3s;
 }
 
 .photo-el {
@@ -435,7 +436,7 @@ html {
 }
 
 .photo-el:active {
-  transform: scale(1.05);
+  /* transform: scale(1.05); */
   box-shadow: 0 8px 25px rgba(165, 149, 104, 0.3);
 }
 
@@ -477,14 +478,14 @@ html {
 
 .arrow-right {
   right: -32px;
-  top: 80%;
+  top: 64%;
   transform: translateY(-50%);
   animation: arrowBounceRight 2s ease-in-out infinite;
 }
 
 .arrow-left {
   left: -32px;
-  top: 92%;
+  top: 56%;
   transform: translateY(-68%);
   animation: arrowBounceLeft 2s ease-in-out infinite;
 }
@@ -781,6 +782,7 @@ button:active {
   margin-top: 16px;
   font-size: 16px;
   font-weight: 500;
+  z-index: 2;
 }
 
 button:disabled {
@@ -808,7 +810,6 @@ button:disabled {
   justify-content: center;
   min-height: 100vh;
   background: url("./assets/Back.jpg") center / cover no-repeat;
-  background-attachment: fixed;
   color: white;
   overflow: hidden;
 }
@@ -937,7 +938,7 @@ button:disabled {
 }
 
 .toast.show {
-  bottom: 30px;
+  bottom: 107px;
   opacity: 1;
   animation: toastSlide 0.4s ease-out;
 }
@@ -949,17 +950,17 @@ button:disabled {
   }
 
   100% {
-    bottom: 30px;
+    bottom: 107px;
     opacity: 1;
   }
 }
 
 .toast.success {
-  background: #1eee28;
+  background: #199720;
 }
 
 .toast.error {
-  background: #c62828;
+  background: #eb3e3e;
 }
 
 /* Стили для QR-экрана */
