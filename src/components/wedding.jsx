@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Hero from "./hero";
 import Guest from "./guest";
 import MyCalendarPage from "./Data";
@@ -7,10 +7,13 @@ import Plan from "./Plan";
 import Details from "./Details";
 import Forms from "./Forms";
 import Timer from "./Timer";
+import Songs from "../assets/songs2.mp3"
+import Sounds from "../assets/off-songs2.svg"
 
 export default function WeddingInvite() {
-
   const [isMobile, setIsMobile] = useState(false);
+  const [isMusicPlaying, setIsMusicPlaying] = useState(false);
+  const audioRef = useRef(null);
 
   // Определяем устройство
   useEffect(() => {
@@ -21,7 +24,31 @@ export default function WeddingInvite() {
     }
   }, []);
 
+  // Функция запуска музыки
+  const handleMusicStart = () => {
+    if (audioRef.current) {
+      audioRef.current.play()
+        .then(() => {
+          setIsMusicPlaying(true);
+        })
+        .catch((error) => {
+          console.log("Автовоспроизведение заблокировано:", error);
+        });
+    }
+  };
 
+  // Функция переключения музыки
+  const toggleMusic = () => {
+    if (audioRef.current) {
+      if (isMusicPlaying) {
+        audioRef.current.pause();
+        setIsMusicPlaying(false);
+      } else {
+        audioRef.current.play();
+        setIsMusicPlaying(true);
+      }
+    }
+  };
 
   // ===== UI =====
   if (!isMobile) {
@@ -45,7 +72,29 @@ export default function WeddingInvite() {
   // Мобильная версия (сайт)
   return (
     <div className="app">
-      <Hero />
+      {/* Аудио элемент */}
+      <audio
+        ref={audioRef}
+        loop
+        preload="auto"
+      >
+        <source src={Songs} type="audio/mpeg" />
+      </audio>
+
+      {/* Кнопка управления музыкой */}
+      <button
+        className="music-toggle"
+        onClick={toggleMusic}
+        aria-label={isMusicPlaying ? "Выключить музыку" : "Включить музыку"}
+      >
+        <img
+          src={Sounds}
+          alt="Music control"
+          className={`music-icon ${isMusicPlaying ? 'music-playing' : 'music-paused'}`}
+        />
+      </button>
+
+      <Hero onMusicStart={handleMusicStart} />
       <Guest />
       <MyCalendarPage />
       <Gaudi />
