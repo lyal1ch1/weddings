@@ -106,11 +106,23 @@ export default function Forms() {
             message,
             type,
             visible: true,
+            hiding: false,
         });
 
         setTimeout(() => {
-            setToast((prev) => ({ ...prev, visible: false }));
-        }, 3000);
+            setToast((prev) => ({
+                ...prev,
+                hiding: true,
+            }));
+
+            setTimeout(() => {
+                setToast((prev) => ({
+                    ...prev,
+                    visible: false,
+                    hiding: false,
+                }));
+            }, 350);
+        }, 2500);
     };
 
     const handleSubmit = async (e) => {
@@ -234,7 +246,10 @@ export default function Forms() {
             </div>
 
             <div
-                className={`toast ${toast.visible ? 'show' : ''} ${toast.type}`}
+                className={`toast 
+    ${toast.visible ? 'show' : ''} 
+    ${toast.hiding ? 'hide' : ''} 
+    ${toast.type}`}
             >
                 {toast.message}
             </div>

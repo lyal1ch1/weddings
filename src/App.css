@@ -918,9 +918,9 @@ button:disabled {
 
 .toast {
   position: fixed;
-  bottom: -100px;
+  bottom: calc(env(safe-area-inset-bottom) + 140px);
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, 120px);
   width: 90%;
   max-width: 420px;
   height: 80px;
@@ -931,30 +931,51 @@ button:disabled {
   font-family: "EB Garamond", serif;
   font-size: 20px;
   z-index: 1000;
-  transition: bottom 0.4s ease, opacity 0.4s ease;
   opacity: 0;
   color: white;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
   text-align: center;
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+
+.toast.show,
+.toast.hide {
+  pointer-events: auto;
 }
 
 .toast.show {
-  bottom: 107px;
-  opacity: 1;
-  animation: toastSlide 0.4s ease-out;
+  animation: toastSlideIn 0.45s ease-out forwards;
 }
 
-@keyframes toastSlide {
-  0% {
-    bottom: -100px;
+.toast.hide {
+  animation: toastSlideOut 0.35s ease-in forwards;
+}
+
+@keyframes toastSlideIn {
+  from {
+    transform: translate(-50%, 120px);
     opacity: 0;
   }
 
-  100% {
-    bottom: 107px;
+  to {
+    transform: translate(-50%, 0);
     opacity: 1;
   }
 }
+
+@keyframes toastSlideOut {
+  from {
+    transform: translate(-50%, 0);
+    opacity: 1;
+  }
+
+  to {
+    transform: translate(-50%, 120px);
+    opacity: 0;
+  }
+}
+
 
 .toast.success {
   background: #199720;
