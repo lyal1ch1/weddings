@@ -30,11 +30,15 @@ export default function MyCalendarPage() {
     }, []);
 
     return (
-        <div
+        <><div
             ref={imgRef}
             className={`image-container ${isVisible ? 'image-visible' : ''}`}
         >
             <img src={photoCal} alt="Календарь свадьбы" className="imageCal" />
+            <div className="line"></div>
         </div>
+
+
+        </>
     );
 }
