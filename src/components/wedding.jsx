@@ -9,6 +9,7 @@ import Forms from "./Forms";
 import Timer from "./Timer";
 import Songs from "../assets/songs2.mp3"
 import Sounds from "../assets/off-songs2.svg"
+import Final from "./Final";
 
 export default function WeddingInvite() {
   const [isMobile, setIsMobile] = useState(false);
@@ -102,6 +103,7 @@ export default function WeddingInvite() {
       <Details />
       <Timer />
       <Forms />
+      <Final />
     </div>
   );
 }
