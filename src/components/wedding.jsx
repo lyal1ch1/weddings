@@ -1,4 +1,5 @@
-import { useEffect, useState, useRef } from "react";
+import { useThemeColor } from "./useThemeColor";
+import { useState, useRef } from "react";
 import Hero from "./hero";
 import Guest from "./guest";
 import MyCalendarPage from "./Data";
@@ -12,18 +13,21 @@ import Sounds from "../assets/off-songs2.svg"
 import Final from "./Final";
 
 export default function WeddingInvite() {
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile] = useState(() => {
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    return /android|iphone|ipad|ipod/i.test(userAgent.toLowerCase());
+  });
   const [isMusicPlaying, setIsMusicPlaying] = useState(false);
   const audioRef = useRef(null);
+  useThemeColor('#fdfdfd');
+  // // Определяем устройство
+  // useEffect(() => {
+  //   const userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
-  // Определяем устройство
-  useEffect(() => {
-    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-
-    if (/android|iphone|ipad|ipod/i.test(userAgent.toLowerCase())) {
-      setIsMobile(true);
-    }
-  }, []);
+  //   if (/android|iphone|ipad|ipod/i.test(userAgent.toLowerCase())) {
+  //     setIsMobile(true);
+  //   }
+  // }, []);
 
   // Функция запуска музыки
   const handleMusicStart = () => {

@@ -547,6 +547,7 @@ html {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 128px;
 }
 
 .details .line {
@@ -946,7 +947,7 @@ button:disabled {
   justify-content: center;
   font-family: "EB Garamond", serif;
   font-size: 20px;
-  z-index: 1000;
+  z-index: 100;
   opacity: 0;
   color: white;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
@@ -954,6 +955,14 @@ button:disabled {
   will-change: transform, opacity;
   pointer-events: none;
   padding: 0 6px;
+  isolation: isolate;
+}
+
+@supports (-webkit-touch-callout: none) {
+  .toast {
+    z-index: 99;
+    will-change: transform, opacity;
+  }
 }
 
 .toast.show,
@@ -1311,9 +1320,13 @@ button:disabled {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: url('./assets/Final3.png') center / cover no-repeat;
+  background: url('./assets/Final6.png') center / cover no-repeat;
   background-attachment: fixed;
-  padding: 40px 20px;
+  padding: 110px 20px;
+  padding-bottom: 80px;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
 }
 
 .final-container::before {
@@ -1334,12 +1347,13 @@ button:disabled {
 .final-heading {
   font-family: "Playfair Display SC", serif;
   font-weight: 400;
-  font-size: 22px;
+  font-size: 26px;
   letter-spacing: 2px;
   line-height: 1.6;
   margin: 0 0 40px 0;
   opacity: 0;
   text-transform: uppercase;
+  transform: translateY(30px);
 }
 
 .final-names {
@@ -1350,10 +1364,19 @@ button:disabled {
   margin: 0;
   opacity: 0;
   color: #1a1a1a;
-  margin-top: 92px !important;
+  transform: translateY(30px);
 }
 
 /* Анимация для финального блока */
 .final-visible {
-  animation: fadeIn 1s ease-out forwards;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.final-visible .final-heading {
+  animation: textAppear 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s forwards;
+}
+
+.final-visible .final-names {
+  animation: textAppear 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) 0.6s forwards;
 }
