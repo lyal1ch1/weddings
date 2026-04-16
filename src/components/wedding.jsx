@@ -1,5 +1,5 @@
 import { useThemeColor } from "./useThemeColor";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Hero from "./hero";
 import Guest from "./guest";
 import MyCalendarPage from "./Data";
@@ -8,8 +8,8 @@ import Plan from "./Plan";
 import Details from "./Details";
 import Forms from "./Forms";
 import Timer from "./Timer";
-import Songs from "../assets/songs2.mp3"
-import Sounds from "../assets/off-songs2.svg"
+import Songs from "../assets/songs2.mp3";
+import Sounds from "../assets/off-songs2.svg";
 import Final from "./Final";
 
 export default function WeddingInvite() {
@@ -17,22 +17,29 @@ export default function WeddingInvite() {
     const userAgent = navigator.userAgent || navigator.vendor || window.opera;
     return /android|iphone|ipad|ipod/i.test(userAgent.toLowerCase());
   });
+
   const [isMusicPlaying, setIsMusicPlaying] = useState(false);
+  const [isInviteOpened, setIsInviteOpened] = useState(false);
   const audioRef = useRef(null);
-  useThemeColor('#fdfdfd');
-  // // Определяем устройство
-  // useEffect(() => {
-  //   const userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
-  //   if (/android|iphone|ipad|ipod/i.test(userAgent.toLowerCase())) {
-  //     setIsMobile(true);
-  //   }
-  // }, []);
+  useThemeColor("#fdfdfd");
 
-  // Функция запуска музыки
+  // 🔒 Блокируем скролл, пока открытка не открыта
+  useEffect(() => {
+    document.body.style.overflow = isInviteOpened ? "auto" : "hidden";
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isInviteOpened]);
+
+  // Запуск музыки + открытие открытки
   const handleMusicStart = () => {
+    setIsInviteOpened(true);
+
     if (audioRef.current) {
-      audioRef.current.play()
+      audioRef.current
+        .play()
         .then(() => {
           setIsMusicPlaying(true);
         })
@@ -42,7 +49,6 @@ export default function WeddingInvite() {
     }
   };
 
-  // Функция переключения музыки
   const toggleMusic = () => {
     if (audioRef.current) {
       if (isMusicPlaying) {
@@ -55,7 +61,6 @@ export default function WeddingInvite() {
     }
   };
 
-  // ===== UI =====
   if (!isMobile) {
     return (
       <div className="qr-app">
@@ -74,19 +79,12 @@ export default function WeddingInvite() {
     );
   }
 
-  // Мобильная версия (сайт)
   return (
     <div className="app">
-      {/* Аудио элемент */}
-      <audio
-        ref={audioRef}
-        loop
-        preload="auto"
-      >
+      <audio ref={audioRef} loop preload="auto">
         <source src={Songs} type="audio/mpeg" />
       </audio>
 
-      {/* Кнопка управления музыкой */}
       <button
         className="music-toggle"
         onClick={toggleMusic}
@@ -95,7 +93,8 @@ export default function WeddingInvite() {
         <img
           src={Sounds}
           alt="Music control"
-          className={`music-icon ${isMusicPlaying ? 'music-playing' : 'music-paused'}`}
+          className={`music-icon ${isMusicPlaying ? "music-playing" : "music-paused"
+            }`}
         />
       </button>
 
