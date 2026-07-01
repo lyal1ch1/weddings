@@ -180,7 +180,7 @@ export default function Forms() {
                 <div className="line"></div>
                 <h1 className="heading-forms">Анкета Гостя</h1>
                 <h2 className="head-forms">
-                    ПОДТВЕРДИТЕ, ПОЖАЛУЙСТА, СВОЕ ПРИСУТСТВИЕ ДО 14.06.2026
+                    ПОДТВЕРДИТЕ, ПОЖАЛУЙСТА, СВОЕ ПРИСУТСТВИЕ
                 </h2>
 
                 <p className="descr-forms">
